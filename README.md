@@ -4,7 +4,7 @@ A tiny proc macro to include a WGSL file in your binary, and verify that it is v
 
 ### Example
 
-This is how you might create a `[wgpu](https://github.com/gfx-rs/wgpu)` shader module:
+This is how you might create a [`wgpu`](https://github.com/gfx-rs/wgpu) shader module:
 
 ```rust
 let shader_str = include_wgsl!("shader.wgsl");
@@ -15,7 +15,7 @@ device.create_shader_module(&ShaderModuleDescriptor {
 })
 ```
 
-This functions exactly as it would if you had used `include_str!("shader.wgsl")`, but it also makes sure at compile time that your WGSL is valid using `[naga](https://github.com/gfx-rs/naga.git)`.
+This functions exactly as it would if you had used `include_str!("shader.wgsl")`, but it also makes sure at compile time that your WGSL is valid using [`naga`](https://github.com/gfx-rs/naga.git).
 
 If your WGSL code is valid, compliation continues on, but if your WGSL is invalid, you will get a friendly naga error:
 
