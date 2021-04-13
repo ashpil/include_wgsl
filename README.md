@@ -6,7 +6,7 @@ A tiny proc macro to include a WGSL file in your binary, and verify that it is v
 
 This is how you might create a `[wgpu](https://github.com/gfx-rs/wgpu)` shader module:
 
-```rs
+```rust
 let shader_str = include_wgsl!("shader.wgsl");
 device.create_shader_module(&ShaderModuleDescriptor {
     source: ShaderSource::Wgsl(Cow::Borrowed(&shader_str)),
@@ -19,7 +19,7 @@ This functions exactly as it would if you had used `include_str!("shader.wgsl")`
 
 If your WGSL code is valid, compliation continues on, but if your WGSL is invalid, you will get a friendly naga error:
 
-```
+```rust
 error: Unable to parse shader.wgsl
 
 error: invalid field accessor `world_positoon`
