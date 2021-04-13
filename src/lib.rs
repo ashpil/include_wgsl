@@ -5,6 +5,8 @@ use proc_macro::{TokenStream, Span, Diagnostic, Level};
 use syn::{parse_macro_input, LitStr};
 use naga::{valid::{ValidationFlags, Validator}, front::wgsl};
 
+/// Works just like the standard library's `include_str!` macro, but errors on compile time if the
+/// contents are not valid WGSL.
 #[proc_macro]
 pub fn include_wgsl(input: TokenStream) -> TokenStream {
     let file_path = parse_macro_input!(input as LitStr).value();
@@ -12,13 +14,18 @@ pub fn include_wgsl(input: TokenStream) -> TokenStream {
     let mut own_path = call_site.source_file().path();
     // Assert we actually have a valid call site
     assert!(own_path.pop());
+
+    // This is the path relative to the current working directory
     let new_path = own_path.join(&file_path);
+
+    // Load string contents, error if path not found
     match std::fs::read_to_string(new_path) {
         Ok(wgsl_str) => {
+            // Attempt to parse WGSL, error if invalid
             match wgsl::parse_str(&wgsl_str) {
                 Ok(module) => {
-                    let mut validator = Validator::new(ValidationFlags::all());
-                    match validator.validate(&module) {
+                    // Attempt to validate WGSL, error if invalid
+                    match Validator::new(ValidationFlags::all()).validate(&module) {
                         Ok(_) => {},
                         Err(e) => Diagnostic::new(Level::Error, format!("{}: {}", file_path, e)).emit(),
                     }
@@ -33,5 +40,7 @@ pub fn include_wgsl(input: TokenStream) -> TokenStream {
             Diagnostic::spanned(call_site, Level::Error, format!("couldn't read {}: {}", file_path, e));
         },
     };
+
+    // just return the `include_str!` macro with the given file path
     format!("&include_str!(\"{}\")", file_path).parse().unwrap()
 }
