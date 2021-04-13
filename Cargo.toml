@@ -1,0 +1,18 @@
+[package]
+name = "include_wgsl"
+version = "0.1.0"
+authors = ["ashpil <ashpil@pm.me>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+syn = "1.0.69"
+
+[dependencies.naga]
+git = "https://github.com/gfx-rs/naga"
+tag = "gfx-21"
+features = ["wgsl-in"]
+
+[lib]
+proc-macro = true
