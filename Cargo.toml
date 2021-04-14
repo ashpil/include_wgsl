@@ -3,7 +3,7 @@ name = "include_wgsl"
 license = "MIT"
 description = "A tiny proc macro to include a WGSL file in your binary, and verify that it is valid at compile time."
 repository = "https://github.com/ashpil/include_wgsl"
-version = "0.1.0"
+version = "1.0.0"
 authors = ["ashpil <ashpil@pm.me>"]
 edition = "2018"
 
