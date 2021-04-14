@@ -17,7 +17,7 @@ device.create_shader_module(&ShaderModuleDescriptor {
 
 This functions exactly as it would if you had used `include_str!("shader.wgsl")`, but it also makes sure at compile time that your WGSL is valid using [`naga`](https://github.com/gfx-rs/naga.git).
 
-If your WGSL code is valid, compliation continues on, but if your WGSL is invalid, you will get a friendly naga error:
+If your WGSL code is valid, compliation continues on, but if your WGSL is invalid, you will get a friendly naga error, and compliation will halt:
 
 ```rust
 error: Unable to parse shader.wgsl
