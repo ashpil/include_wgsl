@@ -14,7 +14,7 @@ syn = "1.0.69"
 
 [dependencies.naga]
 git = "https://github.com/gfx-rs/naga"
-tag = "gfx-22"
+tag = "gfx-23"
 features = ["wgsl-in"]
 
 [lib]
