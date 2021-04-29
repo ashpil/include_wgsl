@@ -1,5 +1,8 @@
 # include_wgsl
 
+[![Crates.io](https://img.shields.io/crates/v/include_wgsl.svg)](https://crates.io/crates/include_wgsl)
+[![Docs.rs](https://docs.rs/include_wgsl/badge.svg)](https://docs.rs/include_wgsl)
+
 A tiny proc macro to include a WGSL file in your binary, and verify that it is valid at compile time.
 
 ### Example
