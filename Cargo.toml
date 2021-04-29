@@ -11,11 +11,7 @@ edition = "2018"
 
 [dependencies]
 syn = "1.0.69"
-
-[dependencies.naga]
-git = "https://github.com/gfx-rs/naga"
-tag = "gfx-23"
-features = ["wgsl-in"]
+naga = { version = "0.4", features = ["wgsl-in"] }
 
 [lib]
 proc-macro = true
