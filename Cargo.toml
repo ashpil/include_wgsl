@@ -10,7 +10,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-syn = "1.0.69"
+syn = "1.0"
 naga = { version = "0.4", features = ["wgsl-in"] }
 
 [lib]
