@@ -3,7 +3,7 @@ name = "include_wgsl"
 license = "MIT"
 description = "A tiny proc macro to include a WGSL file in your binary, and verify that it is valid at compile time."
 repository = "https://github.com/ashpil/include_wgsl"
-version = "1.0.0"
+version = "1.1.0"
 authors = ["ashpil <ashpil@pm.me>"]
 edition = "2018"
 
@@ -11,7 +11,10 @@ edition = "2018"
 
 [dependencies]
 syn = "1.0"
-naga = { version = "0.4", features = ["wgsl-in"] }
+naga = { version = "0.7", features = ["wgsl-in", "validate"] }
+
+[features]
+spv-out = ["naga/spv-out"]
 
 [lib]
 proc-macro = true
