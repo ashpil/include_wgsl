@@ -10,7 +10,7 @@ use naga::{
     front::wgsl,
 };
 #[cfg(feature = "spv-out")]
-use::naga::back::spv::{self, Options};
+use::naga::back::spv::{self, Options, WriterFlags};
 
 /// Just like `include_str!`, but errors on compile time if the contents are not valid WGSL.
 ///
@@ -96,7 +96,14 @@ pub fn include_wgsl_to_spv(input: TokenStream) -> TokenStream {
                     // Attempt to validate WGSL, error if invalid
                     match Validator::new(ValidationFlags::all(), Capabilities::all()).validate(&module) {
                         Ok(info) => {
-                            let spv_bytes = spv::write_vec(&module, &info, &Options::default(), None).expect("Could not generate SPV array");
+                            #[cfg(not(debug_assertions))]
+                            let flags = WriterFlags::LABEL_VARYINGS | WriterFlags::CLAMP_FRAG_DEPTH;
+                            #[cfg(debug_assertions)]
+                            let flags = WriterFlags::LABEL_VARYINGS | WriterFlags::CLAMP_FRAG_DEPTH | WriterFlags::DEBUG;
+                            let spv_bytes = spv::write_vec(&module, &info, &Options {
+                                flags,
+                                ..Default::default()
+                            }, None).expect("Could not generate SPV array");
                             return format!("{{ include_str!(\"{}\"); {:?} }}", file_path, spv_bytes).parse().expect("Cannot format return SPV array");
                         },
                         Err(e) => {
@@ -116,5 +123,5 @@ pub fn include_wgsl_to_spv(input: TokenStream) -> TokenStream {
     };
 
     // just return the `include_str!` macro with the given file path
-    format!("&include_str!(\"{}\")", file_path).parse().unwrap()
+    format!("{{ include_str!(\"{}\"); [] }}", file_path).parse().unwrap()
 }
